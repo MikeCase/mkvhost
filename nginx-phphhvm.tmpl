@@ -1,0 +1,12 @@
+server {
+
+        server_name {{host}};
+        root {{root}};
+        index index.php;
+        
+        access_log = {{alog}};
+        error_log = {{elog}};
+
+        include {{fpm}}.conf;
+
+}

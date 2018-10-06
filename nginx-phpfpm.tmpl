@@ -1,0 +1,15 @@
+server {
+
+        server_name {{host}};
+        root {{root}};
+        index index.php;
+        
+        access_log = {{alog}};
+        error_log = {{elog}};
+
+        location ~ \.php$ {
+                include snippets/{{fpm}}.conf
+                fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+        }
+
+}
