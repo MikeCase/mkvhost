@@ -1,12 +1,21 @@
 import click
 import requests
 import os
+import shutil
 import json
 import CloudFlare
+import subprocess
 from pystache import render
 
-homedir = os.environ['HOME']
-username = os.environ['USER']
+## Virtual host config files ##
+confavail = "/etc/nginx/sites-available"
+confenabled = "/etc/nginx/sites-enabled"
+
+if os.environ.get('SUDO_USER') is None:
+    exit("Must run as root")
+else:
+    username = os.environ['SUDO_USER']
+    userhome = os.path.expanduser(f"~{username}")
 
 def my_ip():
     url = 'https://api.ipify.org'
@@ -26,21 +35,27 @@ def my_ip():
 
 def mkcfg(root, host, template, fpm):
 
-    if os.path.isdir(f"{homedir}/vhosts/{host}/") is False:
-            os.makedirs(f"{homedir}/vhosts/{host}/log/")
+    if os.path.isdir(f"{userhome}/vhosts/{host}/") is False:
+            os.makedirs(f"{userhome}/vhosts/{host}/log/")
 
-    alog = f"{homedir}/vhosts/{host}/log/access.log"
-    elog = f"{homedir}/vhosts/{host}/log/error.log"
+    alog = f"{userhome}/vhosts/{host}/log/access_log"
+    elog = f"{userhome}/vhosts/{host}/log/error_log"
 
-    root = ''.join((f"{homedir}/vhosts/{host}/{root}/"))
+    root = ''.join((f"{userhome}/vhosts/{host}/"))
 
-    with open(f"{homedir}/vhosts/{host}/{host}", 'w') as fp:
+    with open(f"{confavail}/{host}", 'w') as fp:
         if template is "php":
             with open(f"nginx-php{fpm}.tmpl", 'r') as tmpl:
                 fp.write(render(tmpl.read(), locals()))
 
+    with open(f"{userhome}/vhosts/{host}/index.html", 'w') as fp:
+        with open("index.tmpl", 'r') as tmpl:
+            fp.write(render(tmpl.read(), locals()))
+
     
 def mkdns(cf, host_name, zone_name, zone_id):
+    host = f"{host_name}.{zone_name}"
+    os.symlink(f"{confavail}/{host}", f"{confenabled}/{host}")
 
     ip_address, ip_address_type = my_ip()
     
@@ -63,6 +78,8 @@ def mkdns(cf, host_name, zone_name, zone_id):
         exit('/zones.dns_records.post %s - %d %s - api call failed' % (dns_name, e, e))
 
     print('CREATED: %s %s' % (dns_name, ip_address))
+    subprocess.run(["service", "nginx", "reload"])
+
 
 def deldns(cf, host, zone_id):
     
@@ -70,20 +87,39 @@ def deldns(cf, host, zone_id):
     for dns_record in dns_records:
         dns_record_id = dns_record['id']
         r = cf.zones.dns_records.delete(zone_id, dns_record_id)
+        
+    delvhost(host)
+
+    
+def delvhost(host):
+    confavailName = f"{confavail}/{host}"
+    vdir = f"{userhome}/vhosts/{host}"
+    enabled_file = f"{confenabled}/{host}"
+
+    if os.path.exists(enabled_file) and os.path.islink(enabled_file):
+        os.unlink(enabled_file)
+
+    if os.path.exists(confavailName) and os.path.isfile(confavailName):
+        os.remove(confavailName)
+    
+    if os.path.exists(vdir) and os.path.isdir(vdir):
+        shutil.rmtree(vdir)
+                    
+    subprocess.run(["service", "nginx", "reload"])
     
 
 @click.command()
-@click.argument('root')
-@click.argument('host')
+@click.option('--root', '-r', required=True, help="Set your root directory")
+@click.option('--host', required=True, help="Set your hostname")
 @click.option('--template', '-t', default="php", help="Template to use..")
-@click.option('--fpm', default="hhvm", help="hhvm or fpm")
-@click.option('--remove', '-r', default=False, help="Remove Vhost")
-@click.option('--public', '-p', default=False, help="Make site Live (Add cloudflare dns entry")
+@click.option('--fpm', default="fpm", help="hhvm or fpm")
+@click.option('--remove', '-d', is_flag=True, help="Remove Vhost")
+@click.option('--public', '-p', default=None, help="Would you like your vhost to be public?")
 def cli(root, host, template, fpm, remove, public):
     """ 
     Setup cloudflare connection
     """
-    cf = CloudFlare.CloudFlare()
+    cf = CloudFlare.CloudFlare(debug=True)
 
     host_name, zone_name = host.split('.', 1)
     try:
@@ -104,10 +140,10 @@ def cli(root, host, template, fpm, remove, public):
     zone_name = zone['name']
     zone_id = zone['id']
 
-    if remove is False:
-        mkcfg(root, host, template, fpm)
-        if public is True:
-            mkdns(cf, host_name, zone_name, zone_id)
-
-    else:
+    if remove is True:
+        print("Remove: True")
         deldns(cf, host, zone_id)
+    else:
+        mkcfg(root, host, template, fpm)
+        if public is not None:
+            mkdns(cf, host_name, zone_name, zone_id)
