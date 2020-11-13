@@ -1,7 +1,7 @@
 ### What is mkvhost
 
-mkvhost is an app to simplify the process of creating a vhost on a server.
-Will also connect to cloudflare and add a subdomain.  
+mkvhost is a tool that I created to speed up and simplify creating a 
+Virtual Host on the NginX web-server.
 
 ### Usage
 
@@ -27,3 +27,8 @@ Options:
     -p, --public TEXT    Would you like your vhost to be public?
     --help               Show this message and exit.
 ```
+
+### Future plans (Yes, I'm finally going to start working on this again)
+
+Right now the biggest update that I can think about making is to add python
+and other languages to the tool. 
