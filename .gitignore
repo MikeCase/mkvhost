@@ -11,9 +11,13 @@ lib/
 
 mk_vhost\.egg-info/
 
-mkvhost/
-
+.mkvhost/
+.cloudflare.cfg
+.env
 \.cloudflare\.cfg
 .env
 cloudflare.py
 example.py
+mkvhost_old.py
+results.json
+mkvhost.py
