@@ -1,19 +1,11 @@
 
-\.vscode/
+.vscode/
 
 __pycache__/
-
-bin/
-
-include/
-
-lib/
 
 
 .mkvhost/
 .cloudflare.cfg
-.env
-\.cloudflare\.cfg
 .env
 cloudflare.py
 example.py
