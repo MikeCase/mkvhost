@@ -4,10 +4,19 @@ import sys
 import os
 import pprint
 import dotenv
+
+
 class CFlare:
 
     def __init__(self, zone_name):
-        # Initialize the cloudflare instance
+        """
+        Initialize the cloudflare instance
+
+        cf = CFlare(zone_name)
+
+        zone_name: Name of the zone you want to use. 
+        """
+
         self.api_base_url = f"https://api.cloudflare.com/client/v4"
         self.zone_name = zone_name
         dotenv.load_dotenv()
@@ -17,13 +26,7 @@ class CFlare:
             'Content-Type':'application/json',
         }
         
-#
         self.zone_id='c4f876ffa36284d86ce9145148994eee'
-        # try:
-        #     self.cf = CloudFlare.CloudFlare()
-        # except Exception as e:
-        #     print(f'Something didn\'t click... {e}')
-        #     exit(0)
 
     def show_zones(self):
         q = f"?page=1&per_page=20"

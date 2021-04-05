@@ -12,13 +12,20 @@ zone_name = sys.argv[1]
 
 
 def main():
-
+    # Initialize Cloudflare instance.
     cf = CFlare(zone_name)
-##
+
+    # Get the zone id for use in subsequent calls.
     zone_id = cf.get_zone_id()
-    # cf.show_zones()
+
+    # Get a list of all the records. 
     records = cf.get_records()
     # pprint.pprint(records)
+    
+    # If arguments 2 and 3 have values]
+    # Check argument 2 for the action word
+    # after we know the action word we can know
+    # what to do with argument 3
     if sys.argv[2] and sys.argv[3]:
         if sys.argv[2] == 'add':
             payload = json.dumps({

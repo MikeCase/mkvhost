@@ -1,10 +1,10 @@
 
 .vscode/
+.mkvhost/
 
 __pycache__/
 
 
-.mkvhost/
 .cloudflare.cfg
 .env
 cloudflare.py
@@ -12,3 +12,10 @@ example.py
 mkvhost_old.py
 results.json
 mkvhost.py
+dist/mk_vhost-1.1-py3.8.egg
+mk_vhost.egg-info/dependency_links.txt
+mk_vhost.egg-info/entry_points.txt
+mk_vhost.egg-info/PKG-INFO
+mk_vhost.egg-info/requires.txt
+mk_vhost.egg-info/SOURCES.txt
+mk_vhost.egg-info/top_level.txt

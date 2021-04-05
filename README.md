@@ -3,10 +3,18 @@
 mkvhost is a tool that I created to speed up and simplify creating a 
 Virtual Host on the NginX web-server.
 
+# Big update 
+I've completely redesigned the code, probably wont even be using the python-cloudflare api anymore
+Tests are in the test folder, not sure if setup.py is working at the moment, haven't changed anything. 
+
+Also I'd like to acknowledge that the original code I had posted was not my original work. I had copied
+and pasted stuff together, then forgot about it forever.. It was essentially the stepping stone to this
+current work. 
+
 ### Usage
 
-mkvhost -r [server-root] --host [vhost.domain.com]
-mkvhost -r [server-root] -p y --host [vhost.domain.com] 
+mkvhost [zone-name] [action] 
+mkvhost [zone-name] [action] 
 
 This will create a basic server using fpm to serve php files. 
 

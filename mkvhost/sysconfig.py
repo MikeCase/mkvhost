@@ -11,7 +11,6 @@ server_paths = {
     'nginx-site-av': '/sites-available',
     'nginx-site-en': '/sites-enabled',
 }
-# 123
 
 class SysConfig:
 
