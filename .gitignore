@@ -9,7 +9,6 @@ include/
 
 lib/
 
-mk_vhost\.egg-info/
 
 .mkvhost/
 .cloudflare.cfg
