@@ -14,7 +14,7 @@ zone_name = sys.argv[1]
 def main():
 
     cf = CFlare(zone_name)
-
+##
     zone_id = cf.get_zone_id()
     # cf.show_zones()
     records = cf.get_records()
