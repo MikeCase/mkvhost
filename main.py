@@ -21,7 +21,7 @@ def main():
     # Get a list of all the records. 
     records = cf.get_records()
     # pprint.pprint(records)
-    
+
     # If arguments 2 and 3 have values]
     # Check argument 2 for the action word
     # after we know the action word we can know
@@ -44,9 +44,21 @@ def main():
             print(f"Success: {result['success']}")
 
         if sys.argv[2] == 'list':
-            for record in cf.get_records():
-                print(f"Name: {record['name']}")
-                print(f"Id: {record['id']}")
+            filename = 'dns_list.txt'
+            if os.path.exists(filename) & os.path.isfile(filename):
+                os.unlink(filename)
+
+            for record in cf.get_records()['result']:
+                filecontents = f"Name: {record['name']}\t\tType: {record['type']}\n"
+                filecontents += '-'*40+'\n'
+                filecontents += f"Id: {record['id']} \n"
+                filecontents += f"Content: {record['content']} \n"
+                filecontents += '-'*40+'\n'
+                filecontents += '\n'
+
+                with open(filename, 'a') as temp:
+                    temp.write(filecontents)
+                    # temp.close()
     else:
         pass
 

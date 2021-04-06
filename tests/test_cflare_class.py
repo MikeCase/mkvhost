@@ -35,7 +35,7 @@ class TestCFlare(unittest.TestCase):
         self.assertEqual(test['success'], True)
 
     def test_del_dns_record(self):
-        self.record_id = self.cf.get_record_by_name(self.zone_id, 'testing.mikecase.us')['result'][0]['id']
+        self.record_id = self.cf.get_record_by_name(self.zone_id, 'testing.mikecase.us')['result'][0]['name']
         # print(self.record_id)
         test = self.cf.del_record(self.zone_id, self.record_id)
         self.assertEqual(test['success'], True)

@@ -1,3 +1,13 @@
+'''
+.env should contain these two key/value pairs.
+
+email = 'your email address'
+token = 'your api key'
+
+I've not been able to get it to work successfully with just token
+authentication. Maybe not tested extensively enough. 
+
+'''
 import requests
 import json
 import sys
@@ -53,6 +63,7 @@ class CFlare:
         resp = requests.request("GET", url, headers=self.headers)
         zone_records = resp.json()
         resp.close()
+        # pprint.pprint(zone_records)
         return zone_records
 
     def add_record(self, payload, zid):
@@ -73,9 +84,10 @@ class CFlare:
         resp.close()
         return resp.json()
     
-    def del_record(self, zone_id, record_id):
+    def del_record(self, zone_id, record_name):
         q=''
-        url = ''.join([self.api_base_url, '/zones', f'/{zone_id}', '/dns_records/', f'{record_id}'])
+        q_id = self.get_record_by_name(zone_id, record_name)['result'][0]['id']
+        url = ''.join([self.api_base_url, '/zones', f'/{zone_id}', '/dns_records/', f'{q_id}'])
         # print(url)
         resp = requests.request("DELETE", url, headers=self.headers)
         # print('delete_records')

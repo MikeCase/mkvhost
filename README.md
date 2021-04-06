@@ -11,30 +11,20 @@ Also I'd like to acknowledge that the original code I had posted was not my orig
 and pasted stuff together, then forgot about it forever.. It was essentially the stepping stone to this
 current work. 
 
+I have A LOT of work to do. Right now you can actually connect to the cloudflare API using your own .env file
+with your email and key in it, (breakdown of file below). show a list of records, add a record and delete a record.
+
+
 ### Usage
 
 mkvhost [zone-name] [action] 
-mkvhost [zone-name] [action] 
+mkvhost example.com add test.example.com (Some defaults are assumed.)
+mkvhost example.com del test.example.com (Again some defaults are assumed.)
+mkvhost example.com list . (Been to lazy to fix it at the moment. you have to add
+                            the dot at the end, or something, haven't added a check
+                            for missing 3rd argument)
 
-This will create a basic server using fpm to serve php files. 
 
-EX:
-```
-sudo mkvhost -r /path/to/server/root --host example.domain.com -p y
-```
-
-Usage: mkvhost [OPTIONS]
-
-```
-Options:
-    -r, --root TEXT      Set your root directory  [required]
-    --host TEXT          Set your hostname  [required]
-    -t, --template TEXT  Template to use..
-    --fpm TEXT           hhvm or fpm
-    -d, --remove         Remove Vhost
-    -p, --public TEXT    Would you like your vhost to be public?
-    --help               Show this message and exit.
-```
 
 ### Future plans (Yes, I'm finally going to start working on this again)
 
