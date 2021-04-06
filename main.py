@@ -6,7 +6,7 @@ from mkvhost.cflare import CFlare
 import pprint
 
 
-sys.path.insert(0, os.path.abspath('..'))
+# sys.path.insert(0, os.path.abspath('..'))
 zone_name = sys.argv[1]
 # print(zone_name)
 
@@ -26,24 +26,26 @@ def main():
     # Check argument 2 for the action word
     # after we know the action word we can know
     # what to do with argument 3
-    if sys.argv[2] and sys.argv[3]:
-        if sys.argv[2] == 'add':
-            payload = json.dumps({
-                "type": "A",
-                "name":f'{sys.argv[3]}',
-                "content": "45.79.42.59",
-                "ttl": "1",
-                "proxied": True,
-            })
-            result = cf.add_record(payload, zone_id)
-            print(f"Name: {result['result']['name']}")
-            print(f"Id: {result['result']['id']}")
+    if sys.argv[2]:
+        if len(sys.argv) > 3:
+            if sys.argv[2] == 'add':
+                payload = json.dumps({
+                    "type": "A",
+                    "name":f'{sys.argv[3]}',
+                    "content": "45.79.42.59",
+                    "ttl": "1",
+                    "proxied": True,
+                })
+                result = cf.add_record(payload, zone_id)
+                print(f"Name: {result['result']['name']}")
+                print(f"Id: {result['result']['id']}")
             
-        if sys.argv[2] == 'del':
-            result = cf.del_record(zone_id, sys.argv[3])
-            print(f"Success: {result['success']}")
+            if sys.argv[2] == 'del':
+                result = cf.del_record(zone_id, sys.argv[3])
+                print(f"Success: {result['success']}")
 
         if sys.argv[2] == 'list':
+
             filename = 'dns_list.txt'
             if os.path.exists(filename) & os.path.isfile(filename):
                 os.unlink(filename)

@@ -20,3 +20,4 @@ mk_vhost.egg-info/requires.txt
 mk_vhost.egg-info/SOURCES.txt
 mk_vhost.egg-info/top_level.txt
 dns_list.txt
+README.md

@@ -2,8 +2,8 @@ from setuptools import setup
 
 setup(
     name='mk-vhost',
-    version='1.01',
-    py_modules=['mkvhost'],
+    version='0.01',
+    py_modules=['mkvhost', 'mkvhost.cflare', 'mkvhost.sysconfig'],
     include_package_data=True,
     install_requires=[
         'click',

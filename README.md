@@ -30,3 +30,16 @@ with your email and key in it, (breakdown of file below). show a list of records
 
 Right now the biggest update that I can think about making is to add python
 and other languages to the tool. 
+
+
+### Issues
+
+* Currently setup.py doesn't install correctly
+* There's only six tests. 
+* It's grosely lacking features
+* Commenting is shit.
+* Documentation lacking
+* I'm working on it. 
+* Not my day job.
+* Wish it was. 
+* Call me, maybe?
