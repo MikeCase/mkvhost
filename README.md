@@ -17,10 +17,10 @@ with your email and key in it, (breakdown of file below). show a list of records
 
 ### Usage
 
-mkvhost [zone-name] [action] 
-mkvhost example.com add test.example.com (Some defaults are assumed.)
-mkvhost example.com del test.example.com (Again some defaults are assumed.)
-mkvhost example.com list . (Been to lazy to fix it at the moment. you have to add
+* mkvhost [zone-name] [action] 
+* mkvhost example.com add test.example.com (Some defaults are assumed.)
+* mkvhost example.com del test.example.com (Again some defaults are assumed.)
+* mkvhost example.com list . (Been to lazy to fix it at the moment. you have to add
                             the dot at the end, or something, haven't added a check
                             for missing 3rd argument)
 
