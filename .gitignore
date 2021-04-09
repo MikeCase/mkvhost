@@ -22,3 +22,4 @@ mk_vhost.egg-info/top_level.txt
 dns_list.txt
 README.md
 jupyter-experiments/urlparse.ipynb
+tests/testpayload.json

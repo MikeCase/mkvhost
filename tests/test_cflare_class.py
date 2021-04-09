@@ -1,39 +1,43 @@
-import unittest
+import pytest
 from mkvhost.cflare import *
+from main import test_payload, email, token, zone_name, zone_id
+import os
+import dotenv
 
-class TestCFlare(unittest.TestCase):
-   
-    # zone_name = 'mikecase.us'
-    def setUp(self):
-        self.cf = CFlare('')
-        self.zone_id = ''
-        self.record_id = ''
-        self.payload = json.dumps({
-                "type": "A",
-                "name": 'testing',
-                "content": "",
-                "ttl": "1",
-                "proxied": True,
-            })
+dotenv.load_dotenv()
 
-    def test_get_zones(self):
-        self.assertEqual(self.cf.show_zones()['result']['name'], '')
+# email = os.getenv('email')
+# token = os.getenv('token')
+# server_ip = os.getenv('server_ip')
+# host_name = os.getenv('host_name')
+# test_payload = json.dumps(os.getenv('test_payload'))
+test_record = os.getenv('test_record')
+z_id = zone_id
+tcf = CFlare(zone_name, email, token)
 
-    def test_get_zone_id(self):
-        self.assertEqual(self.cf.get_zone_id(), self.zone_id)
+def test_connection_to_api_endpoint():
+    assert tcf.get_zone_id() == z_id
 
-    def test_get_dns_records(self):
-        self.assertIsNotNone(self.cf.get_records())
-        records = self.cf.get_records()
-        self.assertEqual(records['success'], True)
+def test_show_zones():
+    zones = tcf.show_zones()
+    assert zones == list([z_id])
 
-    def test_add_dns_record(self):
-        test = self.cf.add_record(self.payload, self.zone_id)
-        self.assertEqual(test['success'], True)
+def test_get_zone_id():
+    zone_id = tcf.get_zone_id()
+    assert zone_id == z_id
 
-    def test_del_dns_record(self):
-        record_name = self.cf.get_record_by_name(self.zone_id, '')['result'][0]['name']
-        test = self.cf.del_record(self.zone_id, record_name)
-        self.assertEqual(test['success'], True)
+def test_get_record_by_name():
+    record_id = tcf.get_record_by_name(z_id, test_record)
+    # breakpoint()
+    assert record_id['success'] == True
 
-    
+def test_add_record_to_dns():
+    payload = json.dumps(test_payload)
+    result = tcf.add_record(payload, z_id)
+    assert result['success'] == True
+
+
+def test_del_record_from_dns():
+    result = tcf.del_record(z_id, test_record)
+    # breakpoint()
+    assert result['success'] == True
