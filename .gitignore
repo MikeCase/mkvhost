@@ -1,5 +1,6 @@
 
 .vscode/
+.venv/
 .mkvhost-venv/
 
 __pycache__/
