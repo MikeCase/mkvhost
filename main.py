@@ -3,7 +3,7 @@ import json
 import sys
 import os
 from mkvhost.cflare import CFlare
-import pprint
+from pprint import pprint
 
 
 # sys.path.insert(0, os.path.abspath('..'))
@@ -61,6 +61,8 @@ def main():
                 with open(filename, 'a') as temp:
                     temp.write(filecontents)
                     # temp.close()
+
+            pprint(cf.show_zones()['result'])
     else:
         pass
 

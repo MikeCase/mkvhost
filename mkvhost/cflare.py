@@ -31,13 +31,14 @@ class CFlare:
         self.api_base_url = f"https://api.cloudflare.com/client/v4"
         self.zone_name = zone_name
         dotenv.load_dotenv()
+
         self.headers = {
             'X-Auth-Email': os.getenv('email'),
             'X-Auth-Key':os.getenv('token'),
             'Content-Type':'application/json',
         }
         
-        self.zone_id='c4f876ffa36284d86ce9145148994eee'
+        self.zone_id=self.get_zone_id()
 
 
 
@@ -87,6 +88,7 @@ class CFlare:
         params = ['zones']
         url = self._build_api_path(params, q)
         resp = requests.request("GET", url, headers=self.headers)
+        # print(resp.json())
         self.zone_id = resp.json()['result'][0]['id']
         resp.close()
         return self.zone_id

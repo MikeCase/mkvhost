@@ -1,9 +1,9 @@
 
 .vscode/
-.mkvhost/
+.mkvhost-venv/
 
 __pycache__/
-
+build/
 
 .cloudflare.cfg
 .env
