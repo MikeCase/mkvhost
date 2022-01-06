@@ -14,12 +14,12 @@ import json
 import sys
 import os
 import pprint
-import dotenv
+from dotenv import load_dotenv
 
 
 class CFlare:
 
-    def __init__(self, zone_name):
+    def __init__(self, zone_name=None):
         """
         Initialize the cloudflare instance
 
@@ -30,15 +30,15 @@ class CFlare:
 
         self.api_base_url = f"https://api.cloudflare.com/client/v4"
         self.zone_name = zone_name
-        dotenv.load_dotenv()
+        load_dotenv()
 
         self.headers = {
-            'X-Auth-Email': os.getenv('email'),
-            'X-Auth-Key':os.getenv('token'),
+            'X-Auth-Email': os.getenv('EMAIL'),
+            'X-Auth-Key':os.getenv('KEY'),
             'Content-Type':'application/json',
         }
         
-        self.zone_id=self.get_zone_id()
+        # self.zone_id=self.get_zone_id()
 
 
 
@@ -76,12 +76,16 @@ class CFlare:
 
     def show_zones(self):
         q = f"page=1&per_page=20"
-        params = ['zones', self.zone_id]
+        params = ['zones']
         url = self._build_api_path(params, q)
         resp = requests.request("GET", url, headers=self.headers)
         zones = resp.json()
         resp.close()
-        return zones
+        if self._check_for_success(zones):
+            return zones
+        else:
+            return None
+        
 
     def get_zone_id(self):
         q = f"name={self.zone_name}&page=1&per_page=20"
@@ -130,3 +134,9 @@ class CFlare:
         result = resp.json()
         resp.close()
         return result
+
+    def _check_for_success(self, result):
+        if result['success'] is True:
+            return True
+        else:
+            return False

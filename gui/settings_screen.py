@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from dotenv.main import dotenv_values
 
 class SettingsScreen(tk.Toplevel):
-    def __init__(self):
+    def __init__(self, key=None):
         super().__init__()
 
         load_dotenv()
@@ -38,6 +38,12 @@ class SettingsScreen(tk.Toplevel):
         btn_save = tk.Button(self, text="Save", command=lambda: self.save_api_info())
         btn_save.grid(row=1, column=0)
 
+        if key is None:
+            self.raise_window()
+
+    def raise_window(self):
+        self.attributes('-topmost', True)
+
 
     def save_api_info(self):
         # print(email, key)
@@ -47,6 +53,12 @@ class SettingsScreen(tk.Toplevel):
         with open('.env', 'w+') as env_file:
             env_file.write(f"EMAIL = '{email}'\n")
             env_file.write(f"KEY = '{key}'\n")
+
+        if self.attributes('-topmost') is True:
+            self.attributes('-topmost', False)
+
+
+        
             
     def set_api_email(self, email):
         """ Set the API Email """

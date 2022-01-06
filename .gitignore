@@ -8,6 +8,7 @@ build/
 
 .cloudflare.cfg
 .env
+.env-bak
 cloudflare.py
 example.py
 mkvhost_old.py
