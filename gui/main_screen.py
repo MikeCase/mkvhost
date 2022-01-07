@@ -2,15 +2,22 @@ import tkinter as tk
 from tkinter import ttk
 from cloudflare.cflare import CFlare
 from gui.settings_screen import SettingsScreen
-from gui.containers.main_screen_containers import TreeViewContainer, OptionsContainer
+from gui.containers.main_screen_containers import ScreenData, TreeViewContainer, OptionsContainer
 
 
 class MainScreen(tk.Tk):
     def __init__(self, cflare: CFlare):
         super().__init__()
-        
         self.cflare = cflare
         self.zones = self.cflare.show_zones()
+        print(self.zones)
+        for zone in self.zones['result']:
+            print(zone)
+            self.zone_id = zone['id']
+            self.zone_name = zone['name']
+            self.zone_status = zone['status']
+        # sc = ScreenData(zone_id=self.zone_id, zone_name=self.zone_name, zone_status=self.zone_status)
+        
         self.title('mkVhost')
         self.geometry('800x600')
 
@@ -25,16 +32,17 @@ class MainScreen(tk.Tk):
         # opts_container.grid(row=0, column=0)
 
 
-        tv_container = TreeViewContainer(opts_container.zone_name_sv, opts_container.zone_id_sv, opts_container.zone_status_sv)
+        tv_container = TreeViewContainer()
         # tv_container.grid(row=1, column=0)
 
         
 
         # self.build_widget_frame(tv_container)
+        ## This is a very bad way of handling this particular error. 
         if self.zones == None:
             self.settings(self.zones)
         else:
-            tv_container.draw_widget(self.zones)
+            tv_container.draw_widget()
             opts_container.draw_widget()
 
         self.config(menu=menubar)
