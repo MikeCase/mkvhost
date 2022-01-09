@@ -32,9 +32,11 @@ class CFlare:
         self.zone_name = zone_name
         load_dotenv()
 
+        self.api_email = os.getenv('EMAIL')
+        self.api_key = os.getenv('KEY')
         self.headers = {
-            'X-Auth-Email': os.getenv('EMAIL'),
-            'X-Auth-Key':os.getenv('KEY'),
+            'X-Auth-Email': self.api_email,
+            'X-Auth-Key': self.api_key,
             'Content-Type':'application/json',
         }
         
