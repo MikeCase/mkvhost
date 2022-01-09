@@ -12,10 +12,10 @@ class MainScreen(tk.Tk):
         self.zones = self.cflare.show_zones()
         print(self.zones)
         for zone in self.zones['result']:
-            print(zone)
-            self.zone_id = zone['id']
-            self.zone_name = zone['name']
-            self.zone_status = zone['status']
+            # print(zone)
+            self.zone_id_sv = zone['id']
+            self.zone_name_sv = zone['name']
+            self.zone_status_sv = zone['status']
         # sc = ScreenData(zone_id=self.zone_id, zone_name=self.zone_name, zone_status=self.zone_status)
         
         self.title('mkVhost')

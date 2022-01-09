@@ -3,12 +3,10 @@ from setuptools import setup
 setup(
     name='mk-vhost',
     version='0.01',
-    py_modules=['mkvhost', 'mkvhost.cflare', 'mkvhost.sysconfig'],
+    py_modules=['mkvhost', 'cloudflare.cflare', 'cloudflare.sysconfig'],
     include_package_data=True,
     install_requires=[
-        'click',
         'requests',
-        'python-cloudflare',
         'pystache'
     ],
     entry_points='''

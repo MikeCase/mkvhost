@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import StringVar, ttk
 from tkinter.messagebox import showinfo
-from dataclasses import dataclass, InitVar
+from dataclasses import dataclass, field
 
 @dataclass
 class ScreenData:
@@ -39,7 +39,8 @@ class ScreenData:
 
 class TreeViewContainer(tk.Frame, ScreenData):
     def __init__(self):
-        super().__init__()
+        tk.Frame.__init__()
+        ScreenData.__init__()
 
         self.zone_id_sv = StringVar(value=self.zone_id)
         self.zone_name_sv = StringVar(value=self.zone_name)
@@ -76,7 +77,7 @@ class TreeViewContainer(tk.Frame, ScreenData):
 
 class OptionsContainer(tk.Frame, ScreenData):
     def __init__(self, ):
-        super().__init__()
+        tk.Frame.__init__(self)
         
         self.zone_id_sv = StringVar(value=self.zone_id)
         self.zone_name_sv = StringVar(value=self.zone_name)
