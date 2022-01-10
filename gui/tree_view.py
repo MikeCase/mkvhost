@@ -1,6 +1,7 @@
 from gui.views import View
 import tkinter as tk
 from tkinter import ttk
+from tkinter.messagebox import showinfo
 from  typing import List
 
 class TreeViewForm(View):
@@ -54,3 +55,4 @@ class TreeViewForm(View):
                 self.model.zone_id.set(record[0])
                 self.model.zone_name.set(record[1])
                 self.model.zone_status.set(record[2])
+                self.model.get_dns_records(self.model.zone_id.get())
