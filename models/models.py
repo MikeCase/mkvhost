@@ -15,6 +15,7 @@ class CloudFlare:
         self.zone_name: str = tk.StringVar()
         self.zone_status: str = tk.StringVar()
         self.zone_owner: str = tk.StringVar()
+        self.record_type: str = tk.StringVar()
 
     def get_zones(self) -> list:
         zones = self.cflare.show_zones()
@@ -25,12 +26,33 @@ class CloudFlare:
         zone_details = self.cflare.get_zone_details(zone_id)
         return zone_details
 
+
+    def get_dns_record(self, z_id, r_id):
+        dns_record = self.cflare.get_record_by_id(z_id, r_id)
+        pprint(dns_record)
+
+        
     def get_dns_records(self, z_id):
         zone_records = self.cflare.get_zone_records(z_id)
         # pprint(zone_records)
         zone_records = zone_records['result']
         zone_contents = []
         for contents in zone_records:
+
+            ''' DNS Record fields.
+            ## 
+            ## 'id': record ID
+            ## 'name': record name
+            ## 'created_on': Datetime record was created
+            ## 'modified_on': Datetime record was modified
+            ## 'proxiable': is record proxiable?
+            ## 'proxied': is record proxied through cloudflare
+            ## 'type': record type
+            ## 'locked': 
+            ## 'ttl':
+            ## '':
+            ## '':
+            # '''
             ## Names of subdomains
             # zone_contents.append(contents['name'])
             
@@ -53,8 +75,8 @@ class CloudFlare:
             # zone_contents.append(f"{contents['name']} - {contents['type']}")
 
 
-        # return zone_contents
-        pprint(zone_contents)
+        return zone_contents
+        # pprint(zone_contents)
 
     def get_api_key(self) -> str:
         self.api_key.get()

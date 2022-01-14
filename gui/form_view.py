@@ -34,17 +34,3 @@ class Form(View):
         self.create_btn(input_frame, 'Add', 3, 0)
         self.create_btn(input_frame, 'Update', 3, 1)
         self.create_btn(input_frame, 'Delete', 3, 2)
-        
-    def create_lbl_entry(self, frame, label, row, column, textvar):
-        """Create entry with label next to it."""
-
-        label = tk.Label(frame, text=label)
-        self.entries[label] = tk.Entry(frame, textvariable=textvar)
-        self.entries[label].grid(row=row, column=column, sticky=self.sticky, padx=self.padx, pady=self.pady)
-        label.grid(row=row, column=column-1, sticky=self.sticky, padx=self.padx, pady=self.pady)
-
-    def create_btn(self, frame, name, row, column):
-        """ Create button """
-        self.buttons[name] = tk.Button(frame)
-        self.buttons[name]['text'] = name
-        self.buttons[name].grid(row=row, column=column,)

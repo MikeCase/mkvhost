@@ -126,6 +126,15 @@ class CFlare:
         resp.close()
         return result
 
+    def get_record_by_id(self, zone_id, record_id):
+            q=f'id={record_id}'
+            params = ['zones', zone_id, 'dns_records']
+            url = self.build_api_path(params, q)
+            resp = requests.request("GET", url, headers=self.headers)
+            rec = resp.json()
+            resp.close()
+            return rec
+
 
     def get_record_by_name(self, zone_id, record_name):
         q=f'name={record_name}'

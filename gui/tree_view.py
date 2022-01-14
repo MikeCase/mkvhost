@@ -1,8 +1,9 @@
+from pprint import pprint
 from gui.views import View
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
-from  typing import List
+from typing import List
 
 class TreeViewForm(View):
     def __init__(self, master=None, model=None):
@@ -28,31 +29,31 @@ class TreeViewForm(View):
 
         self.create_treeview(tree_frame, zones, zone_data, 0, 0)
 
-    def create_treeview(self, frame: tk.LabelFrame, headings: list, zones: List[tuple], row: int, column: int):
-        """Create TreeView
+    # def create_treeview(self, frame: tk.LabelFrame, headings: list, zones: List[tuple], row: int, column: int):
+    #     """Create TreeView
         
-            frame = What frame is this going in? 
-            row = What row in a grid geometry?
-            columm = What Column in a grid geometry?
-            headings = The headings to be displayed (all lowercase names)
+    #         frame = What frame is this going in? 
+    #         row = What row in a grid geometry?
+    #         columm = What Column in a grid geometry?
+    #         headings = The headings to be displayed (all lowercase names)
 
-        """
-        tree = ttk.Treeview(frame, columns=headings, show='headings')
-        tree.columnconfigure(0, weight=1)
-        tree.rowconfigure(0, weight=1)
-        for col_name in headings:
-            tree.heading(col_name, text=col_name.capitalize())
-        tree.bind('<<TreeviewSelect>>', lambda x: _item_selected())
-        tree.grid(row=row, column=column)
+    #     """
+    #     tree = ttk.Treeview(frame, columns=headings, show='headings')
+    #     tree.columnconfigure(0, weight=1)
+    #     tree.rowconfigure(0, weight=1)
+    #     for col_name in headings:
+    #         tree.heading(col_name, text=col_name.capitalize())
+    #     tree.bind('<<TreeviewSelect>>', lambda x: _item_selected())
+    #     tree.grid(row=row, column=column)
 
-        for zone in zones:
-            tree.insert('', tk.END, values=zone)
+    #     for zone in zones:
+    #         tree.insert('', tk.END, values=zone)
 
-        def _item_selected():
-            for selected_item in tree.selection():
-                item = tree.item(selected_item)
-                record = item['values']
-                self.model.zone_id.set(record[0])
-                self.model.zone_name.set(record[1])
-                self.model.zone_status.set(record[2])
-                self.model.get_dns_records(self.model.zone_id.get())
+    #     def _item_selected():
+    #         for selected_item in tree.selection():
+    #             item = tree.item(selected_item)
+    #             record = item['values']
+    #             self.model.zone_id.set(record[0])
+    #             self.model.zone_name.set(record[1])
+    #             self.model.zone_status.set(record[2])
+    #             showinfo(message=self.model.get_dns_records(self.model.zone_id.get()))
