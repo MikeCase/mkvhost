@@ -12,6 +12,7 @@ class SubdomainView(View):
 
         self.padx = 5
         self.pady = 10
+        self.sticky = tk.N + tk.S + tk.E + tk.W
         
         self.entries = {}
         self.buttons = {}
@@ -28,7 +29,12 @@ class SubdomainView(View):
         list_subdomains_frame.grid(row=1, column=0, padx=self.padx, pady=self.pady)
 
         ## Everything that should go inside the edit info frame
-        self.create_lbl_entry(edit_info_frame, 'Record Type: ', 0, 1, self.model.record_type)
+        self.create_lbl_entry(edit_info_frame, 'Record ID: ', 0, 1, self.model.record_id)
+        self.create_lbl_entry(edit_info_frame, 'Record Type: ', 1, 1, self.model.record_type)
+        self.create_lbl_entry(edit_info_frame, 'Record Name: ', 2, 1, self.model.record_name)
+        self.create_lbl_entry(edit_info_frame, 'Record Name: ', 0, 3, self.model.record_name)
+        self.create_lbl_entry(edit_info_frame, 'Record Name: ', 1, 3, self.model.record_name)
+
 
         ## Everything that should go in the list subdomains frame
         self.create_listbox(list_subdomains_frame, ['one', 'two', 'three', 'four'], 0, 0)

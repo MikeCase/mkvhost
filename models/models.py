@@ -15,7 +15,10 @@ class CloudFlare:
         self.zone_name: str = tk.StringVar()
         self.zone_status: str = tk.StringVar()
         self.zone_owner: str = tk.StringVar()
+        self.record_id: str = tk.StringVar()
+        self.record_name: str = tk.StringVar()
         self.record_type: str = tk.StringVar()
+        self.records = []
 
     def get_zones(self) -> list:
         zones = self.cflare.show_zones()
@@ -31,7 +34,7 @@ class CloudFlare:
         dns_record = self.cflare.get_record_by_id(z_id, r_id)
         pprint(dns_record)
 
-        
+
     def get_dns_records(self, z_id):
         zone_records = self.cflare.get_zone_records(z_id)
         # pprint(zone_records)
@@ -53,29 +56,27 @@ class CloudFlare:
             ## '':
             ## '':
             # '''
-            ## Names of subdomains
-            # zone_contents.append(contents['name'])
-            
-            ## Subdomain Id's
-            # zone_contents.append(f"{contents['name']} - {contents['id']}")
 
-            ## Creation date of subdomain
-            zone_contents.append(f"{contents['name']} - {contents['created_on']}")
+            self.records.append(
+                {
+                    'id': contents['id'],
+                    'name': contents['name'],
+                    'created_on': contents['created_on'],
+                    'modified_on': contents['modified_on'],
+                    'locked': contents['locked'],
+                    'proxiable': contents['proxiable'],
+                    'proxied': contents['proxied'],
+                    'ttl': contents['ttl'],
+                    'type': contents['type'],
+                }
+            )
 
-            ## Last modified date of subdomain
-            # zone_contents.append(f"{contents['name']} {contents['modified_on']}")
-
-            ## Can you use cloudflare proxies on this domain?
-            # zone_contents.append(f"{contents['name']} - {contents['proxiable']}")
-
-            ## Are you using cloudflare proxies on this domain?    
-            # zone_contents.append(f"{contents['name']} - {contents['proxied']}")
-            
-            ## Type of dns record
-            # zone_contents.append(f"{contents['name']} - {contents['type']}")
-
-
-        return zone_contents
+        # self.records.set(value=zone_contents)
+        print("Records: \n")
+        pprint(self.records)
+        # print("Contents: \n")
+        # pprint(zone_contents)
+        # return zone_contents
         # pprint(zone_contents)
 
     def get_api_key(self) -> str:

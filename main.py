@@ -2,9 +2,11 @@ import tkinter as tk
 from tkinter import ttk
 from controllers.controllers import Controller
 from controllers.form_controller import FormController
+from controllers.subdomain_controller import SubdomainController
 from controllers.zone_controller import ZoneController
 from controllers.settings_controller import SettingsController
 from gui.form_view import Form
+from gui.subdomain_view import SubdomainView
 from gui.tree_view import TreeViewForm
 from gui.settings_view import SettingsView
 from models.models import CloudFlare
@@ -33,9 +35,11 @@ if __name__ == '__main__':
 
     form_controller = FormController()
     zone_controller = ZoneController()
+    subd_controller = SubdomainController()
     settings_controller = SettingsController()
 
     app.new_tab(controller=zone_controller, view=TreeViewForm, name='Available Zones')
+    app.new_tab(controller=subd_controller, view=SubdomainView, name='Available Subdomains')
     app.new_tab(controller=form_controller, view=Form, name='Input Tab')
     app.new_tab(controller=settings_controller, view=SettingsView, name='Settings')
 
